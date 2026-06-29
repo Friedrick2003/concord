@@ -13,7 +13,7 @@ export function AuthForm({ onLogin }) {
         const endpoint = isLogin ? '/auth/login' : '/auth/signup';
         const body = { email, password };
         try {
-            const res = await fetch(`http://localhost:3002${endpoint}`, {
+            const res = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:3002'}${endpoint}`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(body),
@@ -27,7 +27,7 @@ export function AuthForm({ onLogin }) {
             }
             else {
                 // After signup, automatically log in
-                const loginRes = await fetch('http://localhost:3002/auth/login', {
+                const loginRes = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:3002'}/auth/login`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(body),
@@ -43,5 +43,13 @@ export function AuthForm({ onLogin }) {
             setLoading(false);
         }
     };
-    return (_jsxs("div", { className: "auth-form", children: [_jsx("h2", { style: { textAlign: 'center', marginBottom: '24px' }, children: isLogin ? 'Sign in' : 'Create account' }), _jsxs("form", { onSubmit: handleSubmit, children: [_jsx("input", { type: "email", placeholder: "Email", value: email, onChange: (e) => setEmail(e.target.value), required: true }), _jsx("input", { type: "password", placeholder: "Password", value: password, onChange: (e) => setPassword(e.target.value), required: true }), _jsx("button", { type: "submit", disabled: loading, children: loading ? 'Please wait...' : isLogin ? 'Sign In' : 'Sign Up' })] }), error && (_jsx("div", { style: { color: '#ef4444', fontSize: '14px', textAlign: 'center' }, children: error })), _jsx("div", { style: { textAlign: 'center', marginTop: '16px' }, children: _jsx("button", { onClick: () => setIsLogin(!isLogin), style: { background: 'none', color: '#2563eb', width: 'auto', padding: 0 }, children: isLogin ? 'Need an account? Sign up' : 'Already have an account? Sign in' }) })] }));
+    return (_jsxs("div", { className: "auth-form", children: [_jsx("h2", { children: isLogin ? 'Welcome back' : 'Create an account' }), _jsx("p", { style: { textAlign: 'center', color: 'var(--text-muted)', marginTop: '-24px', marginBottom: '32px', fontSize: '14px' }, children: isLogin ? 'Enter your details to access your workspace.' : 'Sign up to start collaborating.' }), _jsxs("form", { onSubmit: handleSubmit, children: [_jsx("input", { type: "email", placeholder: "Email address", value: email, onChange: (e) => setEmail(e.target.value), required: true }), _jsx("input", { type: "password", placeholder: "Password", value: password, onChange: (e) => setPassword(e.target.value), required: true }), _jsx("button", { type: "submit", disabled: loading, children: loading ? 'Please wait...' : isLogin ? 'Sign In' : 'Sign Up' })] }), error && (_jsx("div", { style: { color: 'var(--destructive, #EF4444)', fontSize: '14px', textAlign: 'center', marginTop: '16px' }, children: error })), _jsx("div", { style: { textAlign: 'center', marginTop: '24px' }, children: _jsxs("button", { type: "button", onClick: () => { setIsLogin(!isLogin); setError(''); }, style: {
+                        background: 'none',
+                        color: 'var(--text-muted)',
+                        width: 'auto',
+                        padding: '8px',
+                        boxShadow: 'none',
+                        fontSize: '14px',
+                        fontWeight: 500
+                    }, onMouseOver: (e) => e.currentTarget.style.color = 'var(--text-main)', onMouseOut: (e) => e.currentTarget.style.color = 'var(--text-muted)', children: [isLogin ? "Don't have an account? " : "Already have an account? ", _jsx("span", { style: { color: 'var(--primary)' }, children: isLogin ? "Sign up" : "Sign in" })] }) })] }));
 }

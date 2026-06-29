@@ -1,8 +1,8 @@
 import { jsxs as _jsxs, jsx as _jsx } from "react/jsx-runtime";
 import { useEffect, useRef, useState, useCallback } from 'react';
 import { io } from 'socket.io-client';
-import { RgaDocument } from '@crdt-text-editor/crdt';
-import { Share2, ChevronLeft } from 'lucide-react';
+import { RgaDocument } from 'concord-core';
+import { Share2, ChevronLeft, Search } from 'lucide-react';
 const COLORS = ['#ef4444', '#f97316', '#8b5cf6', '#ec4899', '#3b82f6'];
 export function Editor({ documentId, token, userId, documentTitle, onBack }) {
     const [doc, setDoc] = useState(null);
@@ -20,7 +20,7 @@ export function Editor({ documentId, token, userId, documentTitle, onBack }) {
     useEffect(() => {
         const crdtDoc = new RgaDocument(userId);
         setDoc(crdtDoc);
-        const newSocket = io('http://localhost:3002', {
+        const newSocket = io(import.meta.env.VITE_API_URL || 'http://localhost:3002', {
             transports: ['websocket'],
         });
         newSocket.on('connect', () => {
@@ -271,6 +271,6 @@ export function Editor({ documentId, token, userId, documentTitle, onBack }) {
         });
     };
     return (_jsxs("div", { className: "editor-layout", children: [_jsxs("div", { className: "top-toolbar", children: [_jsxs("div", { className: "toolbar-left", children: [_jsx("button", { onClick: onBack, className: "secondary", style: { padding: '8px', width: 'auto' }, children: _jsx(ChevronLeft, { size: 18 }) }), _jsx("input", { type: "text", className: "doc-title", value: title, onChange: (e) => setTitle(e.target.value), spellCheck: false }), _jsxs("div", { className: "sync-status", children: [_jsx("div", { className: `status-dot ${status}` }), status === 'connected' ? 'Synced' : status === 'offline' ? 'Offline' : 'Connecting...'] })] }), _jsxs("div", { className: "toolbar-right", children: [_jsx("div", { className: "avatar-stack", children: Array.from(connectedUsers.values()).map(user => (_jsx("div", { className: "avatar", style: { backgroundColor: user.color }, title: `User ${user.clientId}`, children: user.clientId.toString().slice(-1) }, user.clientId))) }), _jsxs("button", { className: "share-btn", onClick: handleShare, children: [_jsx(Share2, { size: 16 }), "Share"] })] })] }), _jsxs("div", { className: "editor-container", ref: containerRef, onClick: () => editorRef.current?.focus(), children: [renderRemoteCursors(), _jsx("div", { ref: editorRef, id: "editor", contentEditable: true, onInput: handleInput, onKeyDown: handleKeyDown, onClick: emitCursorMove, onKeyUp: emitCursorMove, suppressContentEditableWarning: true })] }), showCmd && (_jsx("div", { className: "cmd-palette-overlay", onClick: (e) => { if (e.target === e.currentTarget)
-                    setShowCmd(false); }, children: _jsxs("div", { className: "cmd-palette", children: [_jsx("input", { autoFocus: true, className: "cmd-input", placeholder: "Type a command or search...", onKeyDown: (e) => { if (e.key === 'Escape')
-                                setShowCmd(false); } }), _jsxs("div", { className: "cmd-list", children: [_jsxs("div", { className: "cmd-item", onClick: () => { handleShare(); setShowCmd(false); }, children: [_jsx(Share2, { size: 16 }), " Copy Share Link"] }), _jsxs("div", { className: "cmd-item", onClick: () => { onBack(); setShowCmd(false); }, children: [_jsx(ChevronLeft, { size: 16 }), " Back to Documents"] })] })] }) }))] }));
+                    setShowCmd(false); }, children: _jsxs("div", { className: "cmd-palette", children: [_jsxs("div", { style: { position: 'relative', display: 'flex', alignItems: 'center' }, children: [_jsx(Search, { size: 18, style: { position: 'absolute', left: '20px', color: 'var(--text-muted)' } }), _jsx("input", { autoFocus: true, className: "cmd-input", style: { paddingLeft: '48px' }, placeholder: "Type a command or search...", onKeyDown: (e) => { if (e.key === 'Escape')
+                                        setShowCmd(false); } })] }), _jsxs("div", { className: "cmd-list", children: [_jsxs("div", { className: "cmd-item", onClick: () => { handleShare(); setShowCmd(false); }, children: [_jsx(Share2, { size: 16 }), " Copy Share Link"] }), _jsxs("div", { className: "cmd-item", onClick: () => { onBack(); setShowCmd(false); }, children: [_jsx(ChevronLeft, { size: 16 }), " Back to Documents"] })] })] }) }))] }));
 }
