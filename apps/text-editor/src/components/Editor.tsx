@@ -39,7 +39,7 @@ export function Editor({ documentId, token, userId, documentTitle, onBack }: Edi
     const crdtDoc = new RgaDocument(userId);
     setDoc(crdtDoc);
 
-    const newSocket = io('http://localhost:3002', {
+    const newSocket = io(import.meta.env.VITE_API_URL || 'http://localhost:3002', {
       transports: ['websocket'],
     });
 

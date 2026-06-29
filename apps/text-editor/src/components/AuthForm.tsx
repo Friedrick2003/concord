@@ -20,7 +20,7 @@ export function AuthForm({ onLogin }: AuthFormProps) {
     const body = { email, password };
 
     try {
-      const res = await fetch(`http://localhost:3002${endpoint}`, {
+      const res = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:3002'}${endpoint}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(body),
@@ -36,7 +36,7 @@ export function AuthForm({ onLogin }: AuthFormProps) {
         onLogin(data.user, data.token);
       } else {
         // After signup, automatically log in
-        const loginRes = await fetch('http://localhost:3002/auth/login', {
+        const loginRes = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:3002'}/auth/login`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(body),

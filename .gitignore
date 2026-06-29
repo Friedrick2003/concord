@@ -130,3 +130,5 @@ dist
 # Build artifacts
 dist/
 build/
+
+.vercel

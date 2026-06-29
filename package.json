@@ -8,7 +8,7 @@
   "scripts": {
     "build:all": "npm run build --workspaces",
     "dev:all": "npm run dev --workspaces",
-    "build": "npm run build:all",
+    "build": "npm run build --workspaces --if-present",
     "start": "npm run start -w concord-sync-server"
   }
 }
